@@ -1,0 +1,12 @@
+{
+    "version": "0.0.1",
+    "configurations": [
+        {
+            "name": "qr-app",
+            "runtimeExecutable": "C:\\Users\\OMIDI\\.config\\herd\\bin\\php.bat",
+            "runtimeArgs": ["artisan", "serve", "--host=127.0.0.1", "--port=8018"],
+            "cwd": "D:\\Projects\\QR-Dynamic-2\\qr-app",
+            "port": 8018
+        }
+    ]
+}
