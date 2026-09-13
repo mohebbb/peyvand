@@ -18,7 +18,8 @@ class DownloadQrAction extends Action
     {
         parent::setUp();
 
-        $this->label('QR')
+        $this->iconButton()
+            ->label('Download QR code')
             ->icon(Heroicon::OutlinedQrCode)
             ->color('gray')
             ->tooltip('Download QR code (SVG)')
