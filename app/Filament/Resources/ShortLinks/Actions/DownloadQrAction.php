@@ -2,10 +2,11 @@
 
 namespace App\Filament\Resources\ShortLinks\Actions;
 
+use App\Models\QrCodeSetting;
 use App\Models\ShortLink;
+use App\Services\QrCodeGenerator;
 use Filament\Actions\Action;
 use Filament\Support\Icons\Heroicon;
-use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class DownloadQrAction extends Action
 {
@@ -22,22 +23,17 @@ class DownloadQrAction extends Action
             ->label('Download QR code')
             ->icon(Heroicon::OutlinedQrCode)
             ->color('gray')
-            ->tooltip('Download QR code (SVG)')
+            ->tooltip('Download QR code (default settings)')
             ->action(function (ShortLink $record) {
-                $svg = QrCode::format('svg')
-                    ->size(300)
-                    ->margin(2)
-                    ->errorCorrection('H')
-                    ->generate($record->trackableUrl());
-
-                $filename = 'qr-'.$record->short_code.'.svg';
+                $file = app(QrCodeGenerator::class)->generate(
+                    $record->trackableUrl(),
+                    QrCodeSetting::current()->toGeneratorSettings(),
+                );
 
                 return response()->streamDownload(
-                    function () use ($svg) {
-                        echo $svg;
-                    },
-                    $filename,
-                    ['Content-Type' => 'image/svg+xml'],
+                    fn (): string => print $file->content,
+                    "qr-{$record->short_code}.{$file->extension}",
+                    ['Content-Type' => $file->contentType],
                 );
             });
     }

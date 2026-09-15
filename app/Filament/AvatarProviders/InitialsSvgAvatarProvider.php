@@ -2,15 +2,16 @@
 
 namespace App\Filament\AvatarProviders;
 
+use Filament\AvatarProviders\Contracts\AvatarProvider;
 use Filament\Facades\Filament;
 use Filament\Support\Colors\Color;
 use Filament\Support\Facades\FilamentColor;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 
-class InitialsSvgAvatarProvider implements \Filament\AvatarProviders\Contracts\AvatarProvider
+class InitialsSvgAvatarProvider implements AvatarProvider
 {
-    public function get(Model | Authenticatable $record): string
+    public function get(Model|Authenticatable $record): string
     {
         $initials = str(Filament::getNameForDefaultAvatar($record))
             ->trim()

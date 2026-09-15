@@ -41,6 +41,22 @@ php artisan boost:install
 
 Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
 
+## Troubleshooting (Windows)
+
+Livewire file uploads depend on PHP's temporary directory. When PHP cannot resolve it, you will see one of these errors:
+
+- Upload fails with **"The files.0 failed to upload."** and the log shows `File upload error - unable to create a temporary file`
+- Upload reaches 100% and then crashes with **`stream_get_meta_data(): Argument #1 ($stream) must be of type resource, false given`** (Livewire's `TemporaryUploadedFile` calls `tmpfile()`, which uses `sys_get_temp_dir()`, not `upload_tmp_dir`)
+
+This commonly happens with `php artisan serve` on Windows: the server strips all environment variables that are not in its pass-through list (`ServeCommand`), including `TMP`/`TEMP`, so the PHP worker falls back to an unwritable directory. Fix it by pinning explicit writable temp directories in your `php.ini` (with Herd: `C:\Users\<you>\.config\herd\bin\phpXX\php.ini`):
+
+```ini
+upload_tmp_dir = "C:\Users\<you>\AppData\Local\Temp"
+sys_temp_dir = "C:\Users\<you>\AppData\Local\Temp"
+```
+
+Then restart your local server (`php artisan serve` or Herd) so PHP picks up the change.
+
 ## Contributing
 
 Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).

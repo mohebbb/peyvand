@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\ShortLinks\Tables;
 
 use App\Filament\Resources\ShortLinks\Actions\CopyLinkAction;
+use App\Filament\Resources\ShortLinks\Actions\CustomizeQrAction;
 use App\Filament\Resources\ShortLinks\Actions\DownloadQrAction;
 use App\Models\ShortLink;
 use Filament\Actions\BulkActionGroup;
@@ -56,6 +57,7 @@ class ShortLinksTable
             ])
             ->recordActions([
                 DownloadQrAction::make(),
+                CustomizeQrAction::make(),
                 CopyLinkAction::make(),
                 EditAction::make()->iconButton(),
             ])

@@ -25,8 +25,8 @@ class CopyLinkAction extends Action
             ->tooltip('Copy link')
             ->alpineClickHandler(
                 fn (ShortLink $record): string => 'window.navigator.clipboard.writeText('
-                    . Js::from($record->trackableUrl())
-                    . '); new FilamentNotification().title(\'Link copied\').success().send()',
+                    .Js::from($record->trackableUrl())
+                    .'); new FilamentNotification().title(\'Link copied\').success().send()',
             );
     }
 }
