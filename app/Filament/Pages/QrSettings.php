@@ -22,11 +22,21 @@ class QrSettings extends Page
 {
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedAdjustmentsHorizontal;
 
-    protected static ?string $navigationLabel = 'QR code defaults';
+    protected static ?string $navigationLabel = null;
 
-    protected static ?string $title = 'QR code defaults';
+    protected static ?string $title = null;
 
     protected static ?string $slug = 'qr-settings';
+
+    public static function getNavigationLabel(): string
+    {
+        return __('qr_codes.page.label');
+    }
+
+    public function getTitle(): string
+    {
+        return __('qr_codes.page.title');
+    }
 
     /**
      * @var array<string, mixed> | null
@@ -71,7 +81,7 @@ class QrSettings extends Page
     protected function getSaveFormAction(): Action
     {
         return Action::make('save')
-            ->label('Save defaults')
+            ->label(__('qr_codes.page.save'))
             ->submit('save')
             ->keyBindings(['mod+s']);
     }
@@ -84,7 +94,7 @@ class QrSettings extends Page
         QrCodeSetting::current()->applySettings($data);
 
         Notification::make()
-            ->title('QR code defaults saved')
+            ->title(__('qr_codes.page.saved'))
             ->success()
             ->send();
 

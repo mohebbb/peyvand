@@ -1,11 +1,11 @@
 @php($appName = config('app.name', 'QR Dynamic'))
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="{{ \App\Support\Locales::dir() }}">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noindex, nofollow">
-    <title>404 &middot; Link Not Found</title>
+    <title>404 &middot; {{ __('app.not_found.title') }}</title>
     <style>
         :root {
             --bg: #0b0f19;
@@ -101,10 +101,10 @@
                 <line x1="2" y1="2" x2="22" y2="22"></line>
             </svg>
         </div>
-        <p class="code">Error 404</p>
-        <h1>This link isn&rsquo;t available</h1>
-        <p>The short link you followed is invalid, has expired, or has been deactivated. Please check the address and try again.</p>
-        <a class="home" href="{{ url('/') }}">Return home</a>
+        <p class="code">{{ __('app.not_found.code') }}</p>
+        <h1>{{ __('app.not_found.title') }}</h1>
+        <p>{{ __('app.not_found.description') }}</p>
+        <a class="home" href="{{ url('/') }}">{{ __('app.not_found.back_home') }}</a>
         <div class="foot">{{ $appName }}</div>
     </main>
 </body>

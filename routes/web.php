@@ -1,7 +1,18 @@
 <?php
 
+use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\RedirectController;
 use Illuminate\Support\Facades\Route;
+
+/*
+|--------------------------------------------------------------------------
+| Language switching
+|--------------------------------------------------------------------------
+| Remembers the visitor's UI language (Persian or English) in the session
+| and sends them back to the page they came from. The {locale} segment is
+| validated against config/locales.php inside the controller.
+*/
+Route::get('/lang/{locale}', LocaleController::class)->name('locale.switch');
 
 Route::get('/', function () {
     return view('welcome');

@@ -20,6 +20,21 @@ class ShortLinkResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
+    public static function getNavigationLabel(): string
+    {
+        return __('short_links.navigation.label');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('short_links.model.label');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('short_links.model.plural');
+    }
+
     public static function form(Schema $schema): Schema
     {
         return ShortLinkForm::configure($schema);

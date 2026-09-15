@@ -12,11 +12,24 @@ class QrSettingsPageTest extends TestCase
 {
     use RefreshDatabase;
 
+    public function test_the_qr_defaults_page_renders_in_persian_by_default(): void
+    {
+        config(['app.locale' => 'fa']);
+
+        $this->actingAs(User::factory()->create());
+
+        $this->get('/admin/qr-settings')
+            ->assertOk()
+            ->assertSee('پیش‌فرض‌های کد QR')
+            ->assertSee('data:image/svg+xml;base64', false);
+    }
+
     public function test_the_qr_defaults_page_renders_with_a_live_preview(): void
     {
         $this->actingAs(User::factory()->create());
 
-        $this->get('/admin/qr-settings')
+        $this->withSession(['locale' => 'en'])
+            ->get('/admin/qr-settings')
             ->assertOk()
             ->assertSee('QR code defaults')
             ->assertSee('data:image/svg+xml;base64', false);

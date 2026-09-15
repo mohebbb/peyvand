@@ -22,13 +22,13 @@ class CustomizeQrAction extends Action
         parent::setUp();
 
         $this->iconButton()
-            ->label('Customize & download QR code')
+            ->label(__('qr_codes.actions.customize'))
             ->icon(Heroicon::OutlinedChevronDown)
             ->color('gray')
-            ->tooltip('Customize QR code download (color, logo, format)')
-            ->modalHeading('Customize QR code')
-            ->modalDescription('Design a personalized QR code and download it. You can also save the settings as default.')
-            ->modalSubmitActionLabel('Download')
+            ->tooltip(__('qr_codes.actions.customize_tooltip'))
+            ->modalHeading(__('qr_codes.actions.customize_heading'))
+            ->modalDescription(__('qr_codes.actions.customize_description'))
+            ->modalSubmitActionLabel(__('qr_codes.actions.download_submit'))
             ->schema(fn (): array => QrCodeSettingsSchema::schema(withSaveDefaultToggle: true))
             ->action(function (array $data, ShortLink $record) {
                 $settings = Arr::except($data, 'save_as_default');

@@ -19,14 +19,14 @@ class CopyLinkAction extends Action
         parent::setUp();
 
         $this->iconButton()
-            ->label('Copy link')
+            ->label(__('qr_codes.actions.copy_link'))
             ->icon(Heroicon::OutlinedClipboardDocument)
             ->color('gray')
-            ->tooltip('Copy link')
+            ->tooltip(__('qr_codes.actions.copy_link'))
             ->alpineClickHandler(
                 fn (ShortLink $record): string => 'window.navigator.clipboard.writeText('
                     .Js::from($record->trackableUrl())
-                    .'); new FilamentNotification().title(\'Link copied\').success().send()',
+                    .'); new FilamentNotification().title('.Js::from(__('short_links.messages.link_copied')).').success().send()',
             );
     }
 }

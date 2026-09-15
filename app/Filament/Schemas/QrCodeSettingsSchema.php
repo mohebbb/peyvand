@@ -36,11 +36,11 @@ class QrCodeSettingsSchema
             $components = [
                 self::previewField(),
                 TextInput::make('preview_url')
-                    ->label('Preview URL')
+                    ->label(__('qr_codes.form.preview_url'))
                     ->url()
                     ->default(fn (): string => rtrim((string) config('app.url'), '/').'/preview')
                     ->live(debounce: 500)
-                    ->helperText('Only used for the preview image above.')
+                    ->helperText(__('qr_codes.form.preview_url_helper'))
                     ->columnSpanFull(),
             ];
         }
@@ -49,19 +49,19 @@ class QrCodeSettingsSchema
             ...$components,
             Grid::make(2)->schema([
                 ToggleButtons::make('format')
-                    ->label('Format')
+                    ->label(__('qr_codes.form.format'))
                     ->options(['svg' => 'SVG', 'png' => 'PNG', 'jpg' => 'JPG'])
                     ->inline()
                     ->default($default('format'))
                     ->required()
                     ->live(),
                 Select::make('error_correction')
-                    ->label('Error correction')
+                    ->label(__('qr_codes.form.error_correction'))
                     ->options([
-                        'L' => 'L — low (7%)',
-                        'M' => 'M — medium (15%)',
-                        'Q' => 'Q — quartile (25%)',
-                        'H' => 'H — high (30%)',
+                        'L' => __('qr_codes.form.error_correction_L'),
+                        'M' => __('qr_codes.form.error_correction_M'),
+                        'Q' => __('qr_codes.form.error_correction_Q'),
+                        'H' => __('qr_codes.form.error_correction_H'),
                     ])
                     ->default($default('error_correction'))
                     ->required()
@@ -69,63 +69,63 @@ class QrCodeSettingsSchema
             ]),
             Grid::make(2)->schema([
                 Slider::make('size')
-                    ->label('Size')
+                    ->label(__('qr_codes.form.size'))
                     ->minValue(100)
                     ->maxValue(1000)
                     ->step(10)
-                    ->helperText('Width of the image in pixels.')
+                    ->helperText(__('qr_codes.form.size_helper'))
                     ->default($default('size'))
                     ->required()
                     ->live(),
                 Slider::make('margin')
-                    ->label('Quiet zone (margin)')
+                    ->label(__('qr_codes.form.margin'))
                     ->minValue(0)
                     ->maxValue(10)
                     ->step(1)
-                    ->helperText('Border around the code, in modules.')
+                    ->helperText(__('qr_codes.form.margin_helper'))
                     ->default($default('margin'))
                     ->required()
                     ->live(),
             ]),
             Grid::make(2)->schema([
                 ColorPicker::make('foreground_color')
-                    ->label('Foreground color')
+                    ->label(__('qr_codes.form.foreground_color'))
                     ->default($default('foreground_color'))
                     ->required()
                     ->live(),
                 ColorPicker::make('background_color')
-                    ->label('Background color')
+                    ->label(__('qr_codes.form.background_color'))
                     ->default($default('background_color'))
                     ->required()
                     ->live(),
             ]),
             Toggle::make('transparent_background')
-                ->label('Transparent background')
-                ->hint('PNG & SVG only')
+                ->label(__('qr_codes.form.transparent_background'))
+                ->hint(__('qr_codes.form.transparent_background_hint'))
                 ->hidden(fn (Get $get): bool => $get('format') === 'jpg')
                 ->default($default('transparent_background'))
                 ->live(),
             Toggle::make('logo_enabled')
-                ->label('Logo')
+                ->label(__('qr_codes.form.logo_enabled'))
                 ->default($default('logo_enabled'))
                 ->live(),
             FileUpload::make('logo_path')
-                ->label('Logo image')
+                ->label(__('qr_codes.form.logo_path'))
                 ->image()
                 ->disk(QrCodeGenerator::logoDisk())
                 ->directory(QrCodeGenerator::logoDirectory())
                 ->maxSize(1024)
                 ->maxFiles(1)
                 ->acceptedFileTypes(['image/png', 'image/jpeg', 'image/webp', 'image/gif'])
-                ->helperText('Placed at the center on a white plate; keep it small for reliable scanning.')
+                ->helperText(__('qr_codes.form.logo_path_helper'))
                 ->visible(fn (Get $get): bool => (bool) $get('logo_enabled'))
                 ->default($default('logo_path')),
             Slider::make('logo_size_percent')
-                ->label('Logo size')
+                ->label(__('qr_codes.form.logo_size_percent'))
                 ->minValue(10)
                 ->maxValue(30)
                 ->step(1)
-                ->helperText('Percentage of the QR code width.')
+                ->helperText(__('qr_codes.form.logo_size_percent_helper'))
                 ->visible(fn (Get $get): bool => (bool) $get('logo_enabled'))
                 ->default($default('logo_size_percent'))
                 ->required()
@@ -134,8 +134,8 @@ class QrCodeSettingsSchema
 
         if ($withSaveDefaultToggle) {
             $components[] = Toggle::make('save_as_default')
-                ->label('Save as default')
-                ->helperText('Use these settings for the quick download button.')
+                ->label(__('qr_codes.form.save_as_default'))
+                ->helperText(__('qr_codes.form.save_as_default_helper'))
                 ->default(false);
         }
 
@@ -159,10 +159,10 @@ class QrCodeSettingsSchema
 
                     return new HtmlString(
                         '<img src="data:image/svg+xml;base64,'.base64_encode($qr->content)
-                        .'" alt="QR code preview" style="width: 180px; height: 180px;">',
+                        .'" alt="'.e(__('qr_codes.form.preview_alt')).'" style="width: 180px; height: 180px;">',
                     );
                 } catch (Throwable) {
-                    return new HtmlString('<span style="color: #ef4444;">The preview could not be rendered.</span>');
+                    return new HtmlString('<span style="color: #ef4444;">'.e(__('qr_codes.form.preview_failed')).'</span>');
                 }
             })
             ->columnSpanFull();

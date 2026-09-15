@@ -20,10 +20,10 @@ class DownloadQrAction extends Action
         parent::setUp();
 
         $this->iconButton()
-            ->label('Download QR code')
+            ->label(__('qr_codes.actions.download'))
             ->icon(Heroicon::OutlinedQrCode)
             ->color('gray')
-            ->tooltip('Download QR code (default settings)')
+            ->tooltip(__('qr_codes.actions.download_tooltip'))
             ->action(function (ShortLink $record) {
                 $file = app(QrCodeGenerator::class)->generate(
                     $record->trackableUrl(),

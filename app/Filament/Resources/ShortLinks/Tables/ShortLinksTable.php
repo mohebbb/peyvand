@@ -21,39 +21,44 @@ class ShortLinksTable
         return $table
             ->columns([
                 TextColumn::make('title')
+                    ->label(__('short_links.fields.title'))
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('short_code')
-                    ->label('Code')
+                    ->label(__('short_links.fields.short_code'))
                     ->copyable()
-                    ->copyMessage('Short URL copied')
+                    ->copyMessage(__('short_links.messages.short_url_copied'))
                     ->badge()
                     ->fontFamily('ui-monospace')
                     ->color('info'),
                 TextColumn::make('destination_url')
-                    ->label('Destination')
+                    ->label(__('short_links.fields.destination'))
                     ->limit(45)
                     ->tooltip(fn (ShortLink $record): string => $record->destination_url),
                 TextColumn::make('clicks')
+                    ->label(__('short_links.fields.clicks'))
                     ->numeric()
                     ->sortable()
                     ->badge()
                     ->color('success'),
                 IconColumn::make('is_active')
-                    ->label('Active')
+                    ->label(__('short_links.fields.is_active'))
                     ->boolean()
                     ->action(
                         fn (ShortLink $record) => $record->update(['is_active' => ! $record->is_active])
                     )
-                    ->tooltip(fn (ShortLink $record): string => $record->is_active ? 'Click to deactivate' : 'Click to activate'),
+                    ->tooltip(fn (ShortLink $record): string => $record->is_active
+                        ? __('short_links.messages.click_to_deactivate')
+                        : __('short_links.messages.click_to_activate')),
                 TextColumn::make('created_at')
+                    ->label(__('short_links.fields.created_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 TernaryFilter::make('is_active')
-                    ->label('Active'),
+                    ->label(__('short_links.fields.is_active')),
             ])
             ->recordActions([
                 DownloadQrAction::make(),

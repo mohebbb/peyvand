@@ -13,17 +13,19 @@ class ShortLinkForm
         return $schema
             ->components([
                 TextInput::make('title')
+                    ->label(__('short_links.fields.title'))
                     ->required()
                     ->maxLength(255)
                     ->columnSpanFull(),
                 TextInput::make('destination_url')
+                    ->label(__('short_links.fields.destination_url'))
                     ->required()
                     ->url()
                     ->maxLength(2048)
-                    ->helperText('The full destination URL (e.g. https://example.gov.ir/services/portal)')
+                    ->helperText(__('short_links.fields.destination_url_helper'))
                     ->columnSpanFull(),
                 Toggle::make('is_active')
-                    ->label('Active')
+                    ->label(__('short_links.fields.is_active'))
                     ->default(true)
                     ->required(),
             ]);
